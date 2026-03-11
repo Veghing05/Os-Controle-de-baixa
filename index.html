@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MDU Field System</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h2>📡 MDU Field System</h2>
+
+<button onclick="abrirDashboard()">Dashboard</button>
+
+</header>
+
+<section class="form">
+
+<h3>Nova OS</h3>
+
+<input type="date" id="data">
+
+<input type="text" id="cidade" placeholder="Cidade">
+
+<input type="text" id="endereco" placeholder="Endereço">
+
+<input type="text" id="predio" placeholder="Prédio / Condomínio">
+
+<input type="number" id="andarDio" placeholder="Andar da DIO">
+
+<input type="number" id="naps" placeholder="NAPs instaladas">
+
+<input type="number" id="hps" placeholder="HPs do prédio">
+
+<select id="tipo">
+
+<option>MDU Construção</option>
+<option>Manutenção</option>
+<option>Troca Drop</option>
+
+</select>
+
+<h4>Materiais</h4>
+
+<input type="number" id="drop" placeholder="Drop usado">
+
+<input type="number" id="conector" placeholder="Conectores SC/APC">
+
+<input type="number" id="nap" placeholder="NAP usada">
+
+<input type="number" id="cto" placeholder="Caixa CTO">
+
+<h4>Observação</h4>
+
+<textarea id="obs"></textarea>
+
+<h4>Foto</h4>
+
+<input type="file" id="foto">
+
+<button onclick="salvarOS()">Salvar OS</button>
+
+</section>
+
+<hr>
+
+<section>
+
+<h3>Serviços realizados</h3>
+
+<ul id="lista"></ul>
+
+</section>
+
+<section>
+
+<button onclick="exportarWhats()">📤 Exportar WhatsApp</button>
+
+<button onclick="exportarJSON()">📥 Backup</button>
+
+</section>
+
+<script src="app.js"></script>
+<script src="dashboard.js"></script>
+
+</body>
+</html>

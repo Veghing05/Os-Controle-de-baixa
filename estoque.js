@@ -1,52 +1,40 @@
 function verEstoque(){
 
-  document.getElementById("app").innerHTML = `
+  let html=`
 
   <div class="card">
 
-  <h2>📦 Estoque de Materiais</h2>
+  <h2>Estoque</h2>
 
-  <input id="buscaMaterial" placeholder="Pesquisar material..." onkeyup="pesquisarMaterial()">
+  <input id="busca" placeholder="Pesquisar material" onkeyup="filtrarMaterial()">
 
   <div id="listaMateriais"></div>
 
-  <br>
-
-  <button onclick="novoMaterial()">➕ Adicionar Material</button>
+  <button onclick="novoMaterial()">Adicionar material</button>
 
   </div>
 
   `
 
-  mostrarMateriais()
+  document.getElementById("app").innerHTML=html
+
+  listarMateriais()
 
   }
 
+  function listarMateriais(){
 
-
-  function mostrarMateriais(){
-
-  let html = ""
+  let html=""
 
   materiais.forEach((m,i)=>{
 
-  html += `
+  html+=`
 
   <div class="card">
 
-  <b>${m.nome}</b>
+  ${m.nome}
 
-  <br>
-
-  Quantidade:
-
-  <input type="number" value="${m.estoque}" onchange="alterarEstoque(${i},this.value)">
-
-  <br><br>
-
-  <button onclick="editarMaterial(${i})">✏ Editar</button>
-
-  <button onclick="removerMaterial(${i})">🗑 Excluir</button>
+  <input type="number" value="${m.estoque}" onchange="materiais[${i}].estoque=this.value;salvar()">
 
   </div>
 
@@ -54,39 +42,27 @@ function verEstoque(){
 
   })
 
-  document.getElementById("listaMateriais").innerHTML = html
+  document.getElementById("listaMateriais").innerHTML=html
 
   }
 
+  function filtrarMaterial(){
 
+  let termo=busca.value.toLowerCase()
 
-  function pesquisarMaterial(){
-
-  let termo = document.getElementById("buscaMaterial").value.toLowerCase()
-
-  let html = ""
+  let html=""
 
   materiais.forEach((m,i)=>{
 
   if(m.nome.toLowerCase().includes(termo)){
 
-  html += `
+  html+=`
 
   <div class="card">
 
-  <b>${m.nome}</b>
+  ${m.nome}
 
-  <br>
-
-  Quantidade:
-
-  <input type="number" value="${m.estoque}" onchange="alterarEstoque(${i},this.value)">
-
-  <br><br>
-
-  <button onclick="editarMaterial(${i})">✏ Editar</button>
-
-  <button onclick="removerMaterial(${i})">🗑 Excluir</button>
+  <input type="number" value="${m.estoque}" onchange="materiais[${i}].estoque=this.value;salvar()">
 
   </div>
 
@@ -96,71 +72,18 @@ function verEstoque(){
 
   })
 
-  document.getElementById("listaMateriais").innerHTML = html
+  listaMateriais.innerHTML=html
 
   }
-
-
-
-  function alterarEstoque(i,valor){
-
-  materiais[i].estoque = Number(valor)
-
-  salvar()
-
-  }
-
-
 
   function novoMaterial(){
 
-  let nome = prompt("Nome do material")
+  let nome=prompt("Nome do material")
 
-  if(!nome) return
-
-  materiais.push({
-
-  nome:nome,
-  estoque:0
-
-  })
+  materiais.push({nome:nome,estoque:0})
 
   salvar()
 
-  mostrarMateriais()
-
-  }
-
-
-
-  function editarMaterial(i){
-
-  let novoNome = prompt("Editar nome do material:", materiais[i].nome)
-
-  if(novoNome && novoNome.trim() !== ""){
-
-  materiais[i].nome = novoNome
-
-  salvar()
-
-  mostrarMateriais()
-
-  }
-
-  }
-
-
-
-  function removerMaterial(i){
-
-  if(confirm("Deseja excluir este material?")){
-
-  materiais.splice(i,1)
-
-  salvar()
-
-  mostrarMateriais()
-
-  }
+  listarMateriais()
 
   }

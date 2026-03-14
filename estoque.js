@@ -1,176 +1,183 @@
-// ===== TELA ESTOQUE =====
-
 function verEstoque(){
 
-document.getElementById("app").innerHTML = `
+  document.getElementById("app").innerHTML = `
 
-<div class="card">
+  <div class="card">
 
-<h2>📦 Estoque de Materiais</h2>
+  <h2>📦 Estoque de Materiais</h2>
 
-<input id="buscaMaterial" placeholder="Pesquisar material..." onkeyup="pesquisarMaterial()">
+  <input id="buscaMaterial" placeholder="Pesquisar material..." onkeyup="pesquisarMaterial()">
 
-<div id="listaMateriais"></div>
+  <div id="listaMateriais"></div>
 
-<br>
+  <br>
 
-<button onclick="novoMaterial()">➕ Adicionar Material</button>
+  <button onclick="novoMaterial()">➕ Adicionar Material</button>
 
-</div>
+  </div>
 
-`
+  `
 
-mostrarMateriais()
+  mostrarMateriais()
 
-}
+  }
 
 
 
-// ===== MOSTRAR MATERIAIS =====
+  function mostrarMateriais(){
 
-function mostrarMateriais(){
+  let html = ""
 
-let html = ""
+  materiais.forEach((m,i)=>{
 
-materiais.forEach((m,i)=>{
+  html += `
 
-html += `
+  <div class="card">
 
-<div class="card">
+  <b>${m.nome}</b>
 
-<b>${m.nome}</b>
+  <input type="number" value="${m.estoque}" onchange="alterarEstoque(${i},this.value)">
 
-<input type="number" value="${m.estoque}" onchange="alterarEstoque(${i},this.value)">
+  <br>
 
-</div>
+  <button onclick="editarMaterial(${i})">✏ Editar</button>
 
-`
+  <button onclick="removerMaterial(${i})">🗑 Excluir</button>
 
-})
+  </div>
 
-document.getElementById("listaMateriais").innerHTML = html
+  `
 
-}
+  })
 
+  document.getElementById("listaMateriais").innerHTML = html
 
+  }
 
-// ===== PESQUISAR MATERIAL =====
 
-function pesquisarMaterial(){
 
-let termo = document.getElementById("buscaMaterial").value.toLowerCase()
+  function pesquisarMaterial(){
 
-let html = ""
+  let termo = document.getElementById("buscaMaterial").value.toLowerCase()
 
-materiais.forEach((m,i)=>{
+  let html = ""
 
-if(m.nome.toLowerCase().includes(termo)){
+  materiais.forEach((m,i)=>{
 
-html += `
+  if(m.nome.toLowerCase().includes(termo)){
 
-<div class="card">
+  html += `
 
-<b>${m.nome}</b>
+  <div class="card">
 
-<input type="number" value="${m.estoque}" onchange="alterarEstoque(${i},this.value)">
+  <b>${m.nome}</b>
 
-</div>
+  <input type="number" value="${m.estoque}" onchange="alterarEstoque(${i},this.value)">
 
-`
+  <br>
 
-}
+  <button onclick="editarMaterial(${i})">✏ Editar</button>
 
-})
+  <button onclick="removerMaterial(${i})">🗑 Excluir</button>
 
-document.getElementById("listaMateriais").innerHTML = html
+  </div>
 
-}
+  `
 
+  }
 
+  })
 
-// ===== ALTERAR ESTOQUE =====
+  document.getElementById("listaMateriais").innerHTML = html
 
-function alterarEstoque(i,valor){
+  }
 
-let antigo = materiais[i].estoque
 
-materiais[i].estoque = Number(valor)
 
-historicoEstoque.push({
+  function alterarEstoque(i,valor){
 
-data:new Date().toLocaleDateString(),
-acao:"Alteração manual",
-material:materiais[i].nome,
-antes:antigo,
-depois:valor
+  let antigo = materiais[i].estoque
 
-})
+  materiais[i].estoque = Number(valor)
 
-salvar()
+  historicoEstoque.push({
 
-}
+  data:new Date().toLocaleDateString(),
+  acao:"Alteração manual",
+  material:materiais[i].nome,
+  antes:antigo,
+  depois:valor
 
+  })
 
+  salvar()
 
-// ===== ADICIONAR MATERIAL =====
+  }
 
-function novoMaterial(){
 
-let nome = prompt("Nome do material")
 
-if(!nome) return
+  function novoMaterial(){
 
-materiais.push({
+  let nome = prompt("Nome do material")
 
-nome:nome,
-estoque:0
+  if(!nome) return
 
-})
+  materiais.push({
 
-historicoEstoque.push({
+  nome:nome,
+  estoque:0
 
-data:new Date().toLocaleDateString(),
-acao:"Novo material criado",
-material:nome
+  })
 
-})
+  salvar()
 
-salvar()
+  mostrarMateriais()
 
-mostrarMateriais()
+  }
 
-}
 
 
+  function editarMaterial(i){
 
-// ===== HISTÓRICO DE ESTOQUE =====
+  let novoNome = prompt("Editar nome do material", materiais[i].nome)
 
-function verHistoricoEstoque(){
+  if(!novoNome) return
 
-let html = "<h2>📜 Histórico de Estoque</h2>"
+  materiais[i].nome = novoNome
 
-historicoEstoque.reverse().forEach(h=>{
+  historicoEstoque.push({
 
-html += `
+  data:new Date().toLocaleDateString(),
+  acao:"Material editado",
+  material:novoNome
 
-<div class="card">
+  })
 
-📅 ${h.data}<br>
+  salvar()
 
-${h.acao}<br>
+  mostrarMateriais()
 
-Material: ${h.material || ""}<br>
+  }
 
-${h.antes ? "Antes: "+h.antes : ""}<br>
 
-${h.depois ? "Depois: "+h.depois : ""}
 
-</div>
+  function removerMaterial(i){
 
-`
+  if(!confirm("Excluir material?")) return
 
-})
+  historicoEstoque.push({
 
-document.getElementById("app").innerHTML = html
+  data:new Date().toLocaleDateString(),
+  acao:"Material removido",
+  material:materiais[i].nome
 
+  })
+
+  materiais.splice(i,1)
+
+  salvar()
+
+  mostrarMateriais()
+
+  }
 }

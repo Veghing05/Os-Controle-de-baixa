@@ -1,21 +1,34 @@
+// ===== BANCO LOCAL =====
+
 let servicos = JSON.parse(localStorage.getItem("servicos")) || []
 
-let estoque = JSON.parse(localStorage.getItem("estoque")) || {
+// lista de materiais do estoque
+let materiais = JSON.parse(localStorage.getItem("materiais")) || [
 
-f8:0,
-fibra:0,
-nap:0,
-dio:0,
-conectores:0
+{nome:"Cabo Drop", estoque:0},
+{nome:"Conector APC", estoque:0},
+{nome:"Splitter 1x8", estoque:0},
+{nome:"Splitter 1x16", estoque:0},
+{nome:"Bucha Nylon S10", estoque:0},
+{nome:"Abraçadeira Cunha", estoque:0},
+{nome:"Canaleta 20x10", estoque:0},
+{nome:"Cabo F8", estoque:0},
+{nome:"Cabo Fibra Cinza", estoque:0},
+{nome:"NAP", estoque:0},
+{nome:"DIO", estoque:0}
 
-}
+]
 
+// histórico de alterações
 let historicoEstoque = JSON.parse(localStorage.getItem("historicoEstoque")) || []
 
+// salvar dados
 function salvar(){
 
 localStorage.setItem("servicos",JSON.stringify(servicos))
-localStorage.setItem("estoque",JSON.stringify(estoque))
+
+localStorage.setItem("materiais",JSON.stringify(materiais))
+
 localStorage.setItem("historicoEstoque",JSON.stringify(historicoEstoque))
 
 }

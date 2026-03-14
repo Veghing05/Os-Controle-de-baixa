@@ -1,6 +1,6 @@
 function verAgenda(){
 
-  let html="<h2>Agenda de Serviços</h2>"
+  let html="<h2>📅 Agenda</h2>"
 
   if(servicos.length==0){
 
@@ -27,6 +27,8 @@ function verAgenda(){
   <button onclick="abrirServico(${i})">Abrir</button>
 
   <button onclick="editarServico(${i})">Editar</button>
+
+  <button onclick="excluirServico(${i})">Excluir</button>
 
   </div>
 

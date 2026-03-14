@@ -1,6 +1,6 @@
 function novoServico(){
 
-  let html=`
+  document.getElementById("app").innerHTML=`
 
   <div class="card">
 
@@ -22,8 +22,6 @@ function novoServico(){
   </div>
 
   `
-
-  document.getElementById("app").innerHTML=html
 
   }
 
@@ -72,9 +70,19 @@ function novoServico(){
 
   }
 
-  s.materiais.forEach(m=>{
+  s.materiais.forEach((m,index)=>{
 
-  html+=`${m.nome} → ${m.qtd}<br>`
+  html+=`
+
+  <div>
+
+  ${m.nome} → ${m.qtd}
+
+  <button onclick="removerMaterial(${i},${index})">❌</button>
+
+  </div>
+
+  `
 
   })
 
@@ -83,6 +91,8 @@ function novoServico(){
   <br>
 
   <button onclick="addMaterial(${i})">Adicionar Material</button>
+
+  <button onclick="verAgenda()">Voltar</button>
 
   </div>
 
@@ -94,30 +104,54 @@ function novoServico(){
 
   function addMaterial(i){
 
-  let nome=prompt("Material usado")
+  let lista=""
 
-  let qtd=prompt("Quantidade")
+  materiais.forEach((m,index)=>{
 
-  if(!nome || !qtd) return
+  lista+=index+" - "+m.nome+" (Estoque:"+m.estoque+")\n"
+
+  })
+
+  let escolha=prompt("Escolha o número do material:\n"+lista)
+
+  let qtd=prompt("Quantidade usada")
+
+  if(escolha===null||qtd===null)return
+
+  let material=materiais[escolha]
 
   servicos[i].materiais.push({
 
-  nome:nome,
+  nome:material.nome,
   qtd:Number(qtd)
 
   })
 
-  let mat=materiais.find(m=>m.nome==nome)
-
-  if(mat){
-
-  mat.estoque -= Number(qtd)
-
-  }
+  material.estoque-=Number(qtd)
 
   salvar()
 
   abrirServico(i)
+
+  }
+
+  function removerMaterial(servicoIndex,materialIndex){
+
+  let mat=servicos[servicoIndex].materiais[materialIndex]
+
+  let estoque=materiais.find(m=>m.nome===mat.nome)
+
+  if(estoque){
+
+  estoque.estoque+=mat.qtd
+
+  }
+
+  servicos[servicoIndex].materiais.splice(materialIndex,1)
+
+  salvar()
+
+  abrirServico(servicoIndex)
 
   }
 
@@ -134,5 +168,19 @@ function novoServico(){
   salvar()
 
   verAgenda()
+
+  }
+
+  function excluirServico(i){
+
+  if(confirm("Excluir serviço?")){
+
+  servicos.splice(i,1)
+
+  salvar()
+
+  verAgenda()
+
+  }
 
   }

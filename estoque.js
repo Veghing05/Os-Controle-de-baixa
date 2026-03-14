@@ -1,78 +1,34 @@
 function verEstoque(){
 
-  let html=`
+  let html="<h2>📦 Estoque</h2>"
+
+  materiais.forEach((m,i)=>{
+
+  html+=`
 
   <div class="card">
 
-  <h2>Estoque</h2>
+  ${m.nome}
 
-  <input id="busca" placeholder="Pesquisar material" onkeyup="filtrarMaterial()">
-
-  <div id="listaMateriais"></div>
-
-  <button onclick="novoMaterial()">Adicionar material</button>
+  <input type="number" value="${m.estoque}" onchange="atualizarEstoque(${i},this.value)">
 
   </div>
 
   `
+
+  })
+
+  html+=`<button onclick="novoMaterial()">Adicionar Material</button>`
 
   document.getElementById("app").innerHTML=html
 
-  listarMateriais()
-
   }
 
-  function listarMateriais(){
+  function atualizarEstoque(i,valor){
 
-  let html=""
+  materiais[i].estoque=Number(valor)
 
-  materiais.forEach((m,i)=>{
-
-  html+=`
-
-  <div class="card">
-
-  ${m.nome}
-
-  <input type="number" value="${m.estoque}" onchange="materiais[${i}].estoque=this.value;salvar()">
-
-  </div>
-
-  `
-
-  })
-
-  document.getElementById("listaMateriais").innerHTML=html
-
-  }
-
-  function filtrarMaterial(){
-
-  let termo=busca.value.toLowerCase()
-
-  let html=""
-
-  materiais.forEach((m,i)=>{
-
-  if(m.nome.toLowerCase().includes(termo)){
-
-  html+=`
-
-  <div class="card">
-
-  ${m.nome}
-
-  <input type="number" value="${m.estoque}" onchange="materiais[${i}].estoque=this.value;salvar()">
-
-  </div>
-
-  `
-
-  }
-
-  })
-
-  listaMateriais.innerHTML=html
+  salvar()
 
   }
 
@@ -80,10 +36,17 @@ function verEstoque(){
 
   let nome=prompt("Nome do material")
 
-  materiais.push({nome:nome,estoque:0})
+  if(!nome)return
+
+  materiais.push({
+
+  nome:nome,
+  estoque:0
+
+  })
 
   salvar()
 
-  listarMateriais()
+  verEstoque()
 
   }

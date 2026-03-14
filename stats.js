@@ -1,54 +1,53 @@
 function verStats(){
 
-let executados=0
-let improdutivos=0
+  let mapa={}
 
-let mdu=0
-let manut=0
-let drop=0
+  servicos.forEach(s=>{
 
-servicos.forEach(s=>{
+  let mes=s.data.split("/")[1]
 
-if(s.status=="Executado")
+  if(!mapa[mes]) mapa[mes]=0
 
-executados++
+  mapa[mes]++
 
-else
+  })
 
-improdutivos++
+  let labels=Object.keys(mapa)
 
-if(s.tipo=="Construção MDU")
+  let valores=Object.values(mapa)
 
-mdu++
+  document.getElementById("app").innerHTML=`
 
-if(s.tipo=="Manutenção")
+  <div class="card">
 
-manut++
+  <h2>Produtividade</h2>
 
-if(s.tipo=="Troca Drop")
+  <canvas id="grafico"></canvas>
 
-drop++
+  </div>
 
-})
+  `
 
-document.getElementById("app").innerHTML=`
+  new Chart(document.getElementById("grafico"),{
 
-<div class="card">
+  type:"bar",
 
-<h2>Estatísticas</h2>
+  data:{
 
-Executados: ${executados}<br>
+  labels:labels,
 
-Improdutivos: ${improdutivos}<br>
+  datasets:[{
 
-MDU: ${mdu}<br>
+  label:"Serviços",
 
-Manutenção: ${manut}<br>
+  data:valores,
 
-Drop: ${drop}
+  backgroundColor:"red"
 
-</div>
+  }]
 
-`
+  }
 
-}
+  })
+
+  }

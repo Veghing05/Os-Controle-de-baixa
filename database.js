@@ -2,17 +2,20 @@ let servicos = JSON.parse(localStorage.getItem("servicos")) || []
 
 let estoque = JSON.parse(localStorage.getItem("estoque")) || {
 
-f8:2000,
-fibra:1500,
-nap:50,
-dio:20,
-conectores:400
+f8:0,
+fibra:0,
+nap:0,
+dio:0,
+conectores:0
 
 }
 
-function salvarDados(){
+let historicoEstoque = JSON.parse(localStorage.getItem("historicoEstoque")) || []
+
+function salvar(){
 
 localStorage.setItem("servicos",JSON.stringify(servicos))
 localStorage.setItem("estoque",JSON.stringify(estoque))
+localStorage.setItem("historicoEstoque",JSON.stringify(historicoEstoque))
 
 }

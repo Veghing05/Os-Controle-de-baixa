@@ -1,59 +1,78 @@
 body{
 
-font-family:Arial;
-background:#0f172a;
-color:white;
-padding:15px;
+  margin:0;
+  font-family:Arial;
+  background:#000;
+  color:white;
 
-}
+  }
 
-h1{
+  header{
 
-text-align:center;
+  background:black;
+  padding:15px;
+  text-align:center;
+  border-bottom:2px solid red;
 
-}
+  }
 
-.menu{
+  h1{
 
-display:flex;
-flex-wrap:wrap;
-gap:8px;
-margin-bottom:15px;
+  color:red;
 
-}
+  }
 
-button{
+  nav{
 
-padding:12px;
-background:#2563eb;
-border:none;
-color:white;
-border-radius:6px;
-font-size:14px;
+  display:flex;
+  justify-content:space-around;
+  background:#111;
+  padding:10px;
 
-}
+  }
 
-button:hover{
+  nav button{
 
-background:#1d4ed8;
+  background:red;
+  border:none;
+  color:white;
+  padding:10px;
+  border-radius:8px;
+  font-size:16px;
 
-}
+  }
 
-.card{
+  main{
 
-background:#1e293b;
-padding:12px;
-border-radius:8px;
-margin-bottom:10px;
+  padding:15px;
 
-}
+  }
 
-input,select,textarea{
+  .card{
 
-width:100%;
-padding:10px;
-margin:5px 0;
-border-radius:6px;
-border:none;
+  background:#111;
+  border:1px solid red;
+  border-radius:10px;
+  padding:15px;
+  margin-bottom:10px;
 
-}
+  }
+
+  input,select,textarea{
+
+  width:100%;
+  padding:10px;
+  margin-top:5px;
+  margin-bottom:10px;
+  background:#222;
+  border:none;
+  color:white;
+  border-radius:6px;
+
+  }
+
+  button{
+
+  cursor:pointer;
+
+  }

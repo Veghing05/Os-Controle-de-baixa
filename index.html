@@ -1,36 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Fiber Control</title>
+<title>Fiber Field Control</title>
 
 <link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
 <body>
 
-<h1>📡 Fiber Control</h1>
+<header>
 
-<div class="menu">
+<h1>📡 Fiber Field</h1>
 
-<button onclick="telaServicos()">🏠 Serviços</button>
-<button onclick="novoServico()">➕ Novo</button>
-<button onclick="verEstoque()">📦 Estoque</button>
-<button onclick="verCalendario()">📅 Calendário</button>
-<button onclick="verStats()">📊 Estatísticas</button>
+</header>
 
-</div>
+<nav>
 
-<div id="app"></div>
+<button onclick="dashboard()">🏠</button>
+<button onclick="telaServicos()">📋</button>
+<button onclick="novoServico()">➕</button>
+<button onclick="verEstoque()">📦</button>
+<button onclick="verHistoricoEstoque()">📜</button>
+<button onclick="verCalendario()">📅</button>
+<button onclick="verStats()">📊</button>
+
+</nav>
+
+<main id="app"></main>
 
 <script src="database.js"></script>
+<script src="dashboard.js"></script>
+<script src="servicos.js"></script>
+<script src="estoque.js"></script>
 <script src="calendar.js"></script>
 <script src="stats.js"></script>
-<script src="photos.js"></script>
 <script src="app.js"></script>
 
 </body>

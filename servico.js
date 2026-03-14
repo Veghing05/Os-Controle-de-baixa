@@ -1,6 +1,6 @@
 function novoServico(){
 
-  document.getElementById("app").innerHTML=`
+  let html=`
 
   <div class="card">
 
@@ -17,21 +17,27 @@ function novoServico(){
 
   </select>
 
-  <button onclick="salvarServico()">Salvar</button>
+  <button onclick="salvarServico()">Salvar Serviço</button>
 
   </div>
 
   `
 
+  document.getElementById("app").innerHTML=html
+
   }
 
   function salvarServico(){
 
+  let local=document.getElementById("local").value
+  let data=document.getElementById("data").value
+  let status=document.getElementById("status").value
+
   let s={
 
-  local:local.value,
-  data:data.value,
-  status:status.value,
+  local:local,
+  data:data,
+  status:status,
   materiais:[]
 
   }
@@ -60,6 +66,12 @@ function novoServico(){
 
   `
 
+  if(s.materiais.length==0){
+
+  html+="Nenhum material registrado<br>"
+
+  }
+
   s.materiais.forEach(m=>{
 
   html+=`${m.nome} → ${m.qtd}<br>`
@@ -76,15 +88,17 @@ function novoServico(){
 
   `
 
-  app.innerHTML=html
+  document.getElementById("app").innerHTML=html
 
   }
 
   function addMaterial(i){
 
-  let nome=prompt("Material")
+  let nome=prompt("Material usado")
 
   let qtd=prompt("Quantidade")
+
+  if(!nome || !qtd) return
 
   servicos[i].materiais.push({
 
@@ -93,11 +107,11 @@ function novoServico(){
 
   })
 
-  let m=materiais.find(x=>x.nome==nome)
+  let mat=materiais.find(m=>m.nome==nome)
 
-  if(m){
+  if(mat){
 
-  m.estoque-=Number(qtd)
+  mat.estoque -= Number(qtd)
 
   }
 
@@ -115,11 +129,10 @@ function novoServico(){
 
   servicos[i].local=novo
 
-  salvar()
-
   }
+
+  salvar()
 
   verAgenda()
 
   }
-}

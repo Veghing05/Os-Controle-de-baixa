@@ -21,7 +21,6 @@ body{
   gap:5px;
   padding:10px;
   background:#111;
-  flex-wrap:wrap;
 
   }
 
@@ -32,7 +31,7 @@ body{
   background:red;
   border:none;
   color:white;
-  border-radius:8px;
+  border-radius:6px;
 
   }
 
@@ -61,11 +60,5 @@ body{
   border:none;
   color:white;
   border-radius:6px;
-
-  }
-
-  button{
-
-  cursor:pointer;
 
   }

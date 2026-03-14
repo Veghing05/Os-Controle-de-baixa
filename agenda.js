@@ -1,6 +1,12 @@
 function verAgenda(){
 
-  let html="<h2>Agenda</h2>"
+  let html="<h2>Agenda de Serviços</h2>"
+
+  if(servicos.length==0){
+
+  html+="<div class='card'>Nenhum serviço cadastrado</div>"
+
+  }
 
   servicos.forEach((s,i)=>{
 
@@ -8,9 +14,11 @@ function verAgenda(){
 
   <div class="card">
 
-  🏢 ${s.local}<br>
+  <h3>${s.local}</h3>
 
-  📅 ${s.data}<br>
+  📅 ${s.data}
+
+  <br>
 
   Status: ${s.status}
 

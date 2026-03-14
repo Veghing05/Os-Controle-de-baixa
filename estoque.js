@@ -36,9 +36,13 @@ function verEstoque(){
 
   <b>${m.nome}</b>
 
+  <br>
+
+  Quantidade:
+
   <input type="number" value="${m.estoque}" onchange="alterarEstoque(${i},this.value)">
 
-  <br>
+  <br><br>
 
   <button onclick="editarMaterial(${i})">✏ Editar</button>
 
@@ -72,9 +76,13 @@ function verEstoque(){
 
   <b>${m.nome}</b>
 
+  <br>
+
+  Quantidade:
+
   <input type="number" value="${m.estoque}" onchange="alterarEstoque(${i},this.value)">
 
-  <br>
+  <br><br>
 
   <button onclick="editarMaterial(${i})">✏ Editar</button>
 
@@ -96,19 +104,7 @@ function verEstoque(){
 
   function alterarEstoque(i,valor){
 
-  let antigo = materiais[i].estoque
-
   materiais[i].estoque = Number(valor)
-
-  historicoEstoque.push({
-
-  data:new Date().toLocaleDateString(),
-  acao:"Alteração manual",
-  material:materiais[i].nome,
-  antes:antigo,
-  depois:valor
-
-  })
 
   salvar()
 
@@ -139,19 +135,11 @@ function verEstoque(){
 
   function editarMaterial(i){
 
-  let novoNome = prompt("Editar nome do material", materiais[i].nome)
+  let novoNome = prompt("Editar nome do material:", materiais[i].nome)
 
-  if(!novoNome) return
+  if(novoNome && novoNome.trim() !== ""){
 
   materiais[i].nome = novoNome
-
-  historicoEstoque.push({
-
-  data:new Date().toLocaleDateString(),
-  acao:"Material editado",
-  material:novoNome
-
-  })
 
   salvar()
 
@@ -159,19 +147,13 @@ function verEstoque(){
 
   }
 
+  }
+
 
 
   function removerMaterial(i){
 
-  if(!confirm("Excluir material?")) return
-
-  historicoEstoque.push({
-
-  data:new Date().toLocaleDateString(),
-  acao:"Material removido",
-  material:materiais[i].nome
-
-  })
+  if(confirm("Deseja excluir este material?")){
 
   materiais.splice(i,1)
 
@@ -180,4 +162,5 @@ function verEstoque(){
   mostrarMateriais()
 
   }
-}
+
+  }

@@ -1,13 +1,19 @@
-Sistema simples para técnicos de fibra controlarem:
-
-- Agenda
-- Estoque
-- Materiais usados
-- Relatórios
-
-Tecnologias:
-
-HTML
-CSS
-JavaScript
-LocalStorage
+fiber-field
+│
+├── backend
+│   ├── server.js
+│   ├── database.js
+│   └── routes
+│       └── servicos.js
+│
+├── frontend
+│   ├── package.json
+│   └── src
+│       ├── App.js
+│       ├── index.js
+│       ├── pages
+│       │   ├── Dashboard.js
+│       │   ├── NovoServico.js
+│       │   └── Estoque.js
+│       └── components
+│           └── Navbar.js

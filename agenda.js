@@ -1,59 +1,64 @@
 function verAgenda(){
 
-  let app = document.getElementById("app")
+  const app = document.getElementById("app")
 
-  let html = "<h2>📅 Agenda de Serviços</h2>"
+  if(!servicos || servicos.length === 0){
 
-  if(servicos.length === 0){
+    app.innerHTML = `
+    <div class="card">
+    Nenhum serviço cadastrado
+    </div>
+    `
 
-  app.innerHTML = "<div class='card'>Nenhum serviço cadastrado</div>"
-
-  return
-
+    return
   }
+
+  let html = "<h2>📅 Agenda</h2>"
 
   servicos.sort((a,b)=> new Date(a.data) - new Date(b.data))
 
   servicos.forEach((s,i)=>{
 
-  let corStatus = s.status === "Executado" ? "lime" : "orange"
+    let cor = s.status === "Executado" ? "lime" : "orange"
 
-  html += `
+    html += `
 
-  <div class="card">
+    <div class="card">
 
-  <h3>${s.local}</h3>
+    <h3>${s.local || "Sem local"}</h3>
 
-  <p>📅 ${formatarData(s.data)}</p>
+    <p>📅 ${formatarData(s.data)}</p>
 
-  <p>Status: <b style="color:${corStatus}">${s.status}</b></p>
+    <p>Status: <b style="color:${cor}">${s.status}</b></p>
 
-  <div class="acoes">
+    <div class="acoes">
 
-  <button onclick="abrirServico(${i})">Abrir</button>
+    <button onclick="abrirServico(${i})">Abrir</button>
 
-  <button onclick="toggleStatus(${i})">Concluir</button>
+    <button onclick="toggleStatus(${i})">Status</button>
 
-  <button onclick="editarServico(${i})">Editar</button>
+    <button onclick="editarServico(${i})">Editar</button>
 
-  <button onclick="excluirServico(${i})">Excluir</button>
+    <button onclick="excluirServico(${i})">Excluir</button>
 
-  </div>
+    </div>
 
-  </div>
+    </div>
 
-  `
+    `
 
   })
 
   app.innerHTML = html
 
-  }
+}
 
-  function formatarData(data){
+function formatarData(data){
+
+  if(!data) return "Sem data"
 
   let d = new Date(data)
 
   return d.toLocaleDateString("pt-BR")
 
-  }
+}

@@ -1,52 +1,203 @@
+// ===== TELA ESTOQUE =====
+
 function verEstoque(){
 
-  let html="<h2>📦 Estoque</h2>"
+const app = document.getElementById("app")
 
-  materiais.forEach((m,i)=>{
+let html = `
 
-  html+=`
+<h2>📦 Estoque do Carro</h2>
 
-  <div class="card">
+<input id="buscaMaterial" placeholder="Pesquisar material" onkeyup="filtrarMaterial()">
 
-  ${m.nome}
+<button onclick="novoMaterial()">Adicionar Material</button>
 
-  <input type="number" value="${m.estoque}" onchange="atualizarEstoque(${i},this.value)">
+<div id="listaMateriais"></div>
 
-  </div>
+`
 
-  `
+app.innerHTML = html
 
-  })
+renderEstoque()
 
-  html+=`<button onclick="novoMaterial()">Adicionar Material</button>`
+}
 
-  document.getElementById("app").innerHTML=html
 
-  }
+// ===== RENDER ESTOQUE =====
 
-  function atualizarEstoque(i,valor){
+function renderEstoque(){
 
-  materiais[i].estoque=Number(valor)
+let lista = document.getElementById("listaMateriais")
 
-  salvar()
+let html = ""
 
-  }
+estoque.forEach((m,i)=>{
 
-  function novoMaterial(){
+html += `
 
-  let nome=prompt("Nome do material")
+<div class="card">
 
-  if(!nome)return
+<h3>${m.nome}</h3>
 
-  materiais.push({
+<p>Quantidade: ${m.qtd}</p>
 
-  nome:nome,
-  estoque:0
+<div class="acoes">
 
-  })
+<button onclick="editarMaterial(${i})">Editar</button>
 
-  salvar()
+<button onclick="removerMaterialEstoque(${i})">Excluir</button>
 
-  verEstoque()
+</div>
 
-  }
+</div>
+
+`
+
+})
+
+lista.innerHTML = html
+
+}
+
+
+// ===== FILTRO =====
+
+function filtrarMaterial(){
+
+let busca = document.getElementById("buscaMaterial").value.toLowerCase()
+
+let lista = document.getElementById("listaMateriais")
+
+let html = ""
+
+estoque.forEach((m,i)=>{
+
+if(m.nome.toLowerCase().includes(busca)){
+
+html += `
+
+<div class="card">
+
+<h3>${m.nome}</h3>
+
+<p>Quantidade: ${m.qtd}</p>
+
+<button onclick="editarMaterial(${i})">Editar</button>
+
+</div>
+
+`
+
+}
+
+})
+
+lista.innerHTML = html
+
+}
+
+
+// ===== NOVO MATERIAL =====
+
+function novoMaterial(){
+
+const app = document.getElementById("app")
+
+app.innerHTML = `
+
+<div class="card">
+
+<h2>Novo Material</h2>
+
+<input id="nomeMaterial" placeholder="Nome">
+
+<input id="qtdMaterial" type="number" placeholder="Quantidade">
+
+<button onclick="salvarMaterial()">Salvar</button>
+
+<button onclick="verEstoque()">Cancelar</button>
+
+</div>
+
+`
+
+}
+
+
+function salvarMaterial(){
+
+let nome = document.getElementById("nomeMaterial").value
+
+let qtd = Number(document.getElementById("qtdMaterial").value)
+
+estoque.push({
+
+nome:nome,
+qtd:qtd
+
+})
+
+salvar()
+
+verEstoque()
+
+}
+
+
+// ===== EDITAR MATERIAL =====
+
+function editarMaterial(i){
+
+let m = estoque[i]
+
+const app = document.getElementById("app")
+
+app.innerHTML = `
+
+<div class="card">
+
+<h2>Editar Material</h2>
+
+<input id="nomeMaterial" value="${m.nome}">
+
+<input id="qtdMaterial" type="number" value="${m.qtd}">
+
+<button onclick="salvarEdicaoMaterial(${i})">Salvar</button>
+
+<button onclick="verEstoque()">Cancelar</button>
+
+</div>
+
+`
+
+}
+
+
+function salvarEdicaoMaterial(i){
+
+estoque[i].nome = document.getElementById("nomeMaterial").value
+
+estoque[i].qtd = Number(document.getElementById("qtdMaterial").value)
+
+salvar()
+
+verEstoque()
+
+}
+
+
+// ===== EXCLUIR =====
+
+function removerMaterialEstoque(i){
+
+if(confirm("Excluir material?")){
+
+estoque.splice(i,1)
+
+salvar()
+
+verEstoque()
+
+}
+
+}

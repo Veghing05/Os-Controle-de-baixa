@@ -6,13 +6,13 @@ function verAgenda(){
 
   if(servicos.length === 0){
 
-  html += "<div class='card'>Nenhum serviço cadastrado</div>"
-
-  app.innerHTML = html
+  app.innerHTML = "<div class='card'>Nenhum serviço cadastrado</div>"
 
   return
 
   }
+
+  servicos.sort((a,b)=> new Date(a.data) - new Date(b.data))
 
   servicos.forEach((s,i)=>{
 
@@ -24,15 +24,15 @@ function verAgenda(){
 
   <h3>${s.local}</h3>
 
-  <p>📅 ${s.data}</p>
+  <p>📅 ${formatarData(s.data)}</p>
 
   <p>Status: <b style="color:${corStatus}">${s.status}</b></p>
 
-  <div style="display:flex;gap:5px;flex-wrap:wrap">
+  <div class="acoes">
 
   <button onclick="abrirServico(${i})">Abrir</button>
 
-  <button onclick="toggleStatus(${i})">Status</button>
+  <button onclick="toggleStatus(${i})">Concluir</button>
 
   <button onclick="editarServico(${i})">Editar</button>
 
@@ -47,5 +47,13 @@ function verAgenda(){
   })
 
   app.innerHTML = html
+
+  }
+
+  function formatarData(data){
+
+  let d = new Date(data)
+
+  return d.toLocaleDateString("pt-BR")
 
   }

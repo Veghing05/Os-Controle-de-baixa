@@ -53,3 +53,19 @@ body{
   cursor:pointer;
   margin-top:6px;
   }
+
+  .acoes{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    }
+
+    .acoes button{
+
+    flex:1;
+
+    }

@@ -1,62 +1,14 @@
-function novoServico(){
+function abrirServico(i){
 
-  document.getElementById("app").innerHTML=`
+  let s = servicos[i]
 
-  <div class="card">
-
-  <h2>Novo Serviço</h2>
-
-  <input id="local" placeholder="Condomínio / endereço">
-
-  <input type="date" id="data">
-
-  <select id="status">
-
-  <option>Pendente</option>
-  <option>Executado</option>
-
-  </select>
-
-  <button onclick="salvarServico()">Salvar Serviço</button>
-
-  </div>
-
-  `
-
-  }
-
-  function salvarServico(){
-
-  let local=document.getElementById("local").value
-  let data=document.getElementById("data").value
-  let status=document.getElementById("status").value
-
-  let s={
-  local:local,
-  data:data,
-  status:status,
-  materiais:[]
-  }
-
-  servicos.push(s)
-
-  salvar()
-
-  verAgenda()
-
-  }
-
-  function abrirServico(i){
-
-  let s=servicos[i]
-
-  let html=`
+  let html = `
 
   <div class="card">
 
   <h2>${s.local}</h2>
 
-  📅 ${s.data}
+  <p>📅 ${new Date(s.data).toLocaleDateString()}</p>
 
   <p>Status: ${s.status}</p>
 
@@ -64,59 +16,23 @@ function novoServico(){
 
   `
 
-  if(s.materiais.length==0){
+  if(s.materiais.length === 0){
 
-  html+="Nenhum material registrado<br>"
+  html += "Nenhum material registrado"
 
   }
 
   s.materiais.forEach((m,index)=>{
 
-  html+=`
+  html += `
 
   <div class="card">
 
-  ${m.nome} → ${m.qtd}
+  ${m.nome} — ${m.qtd}
 
-  <button onclick="removerMaterial(${i},${index})">Remover</button>
+  <button onclick="removerMaterial(${i},${index})">
 
-  </div>
-
-  `
-
-  })
-
-  html+=`
-
-  <button onclick="abrirListaMateriais(${i})">➕ Adicionar Material</button>
-
-  <button onclick="verAgenda()">⬅ Voltar</button>
-
-  </div>
-
-  `
-
-  document.getElementById("app").innerHTML=html
-
-  }
-
-  function abrirListaMateriais(servicoIndex){
-
-  let html="<h2>Escolher Material</h2>"
-
-  materiais.forEach((m,i)=>{
-
-  html+=`
-
-  <div class="card">
-
-  <h3>${m.nome}</h3>
-
-  Estoque: ${m.estoque}
-
-  <button onclick="selecionarMaterial(${servicoIndex},${i})">
-
-  Usar Material
+  Remover
 
   </button>
 
@@ -126,99 +42,56 @@ function novoServico(){
 
   })
 
-  html+=`<button onclick="abrirServico(${servicoIndex})">Voltar</button>`
+  html += `
 
-  document.getElementById("app").innerHTML=html
+  <button onclick="abrirListaMateriais(${i})">
 
-  }
+  Adicionar Material
 
-  function selecionarMaterial(servicoIndex,materialIndex){
+  </button>
 
-  let qtd=prompt("Quantidade usada")
+  <button onclick="exportarServico(${i})">
 
-  if(!qtd) return
+  Exportar Relatório
 
-  let material=materiais[materialIndex]
+  </button>
 
-  servicos[servicoIndex].materiais.push({
+  <button onclick="verAgenda()">
 
-  nome:material.nome,
-  qtd:Number(qtd)
+  Voltar
 
-  })
+  </button>
 
-  material.estoque -= Number(qtd)
+  </div>
 
-  salvar()
+  `
 
-  abrirServico(servicoIndex)
-
-  }
-
-  function removerMaterial(servicoIndex,materialIndex){
-
-  let mat=servicos[servicoIndex].materiais[materialIndex]
-
-  let estoque=materiais.find(m=>m.nome===mat.nome)
-
-  if(estoque){
-
-  estoque.estoque += mat.qtd
+  document.getElementById("app").innerHTML = html
 
   }
 
-  servicos[servicoIndex].materiais.splice(materialIndex,1)
+  function exportarServico(i){
 
-  salvar()
+    let s = servicos[i]
 
-  abrirServico(servicoIndex)
+    let texto = "📡 RELATÓRIO DE SERVIÇO\n\n"
 
-  }
+    texto += "Local: " + s.local + "\n"
 
-  function editarServico(i){
+    texto += "Data: " + new Date(s.data).toLocaleDateString() + "\n"
 
-  let novo=prompt("Editar local",servicos[i].local)
+    texto += "Status: " + s.status + "\n\n"
 
-  if(novo){
+    texto += "Materiais utilizados:\n"
 
-  servicos[i].local=novo
+    s.materiais.forEach(m=>{
 
-  }
+    texto += "- " + m.nome + ": " + m.qtd + "\n"
 
-  salvar()
+    })
 
-  verAgenda()
+    navigator.clipboard.writeText(texto)
 
-  }
+    alert("Relatório copiado. Agora é só colar no WhatsApp.")
 
-  function excluirServico(i){
-
-  if(confirm("Excluir serviço?")){
-
-  servicos.splice(i,1)
-
-  salvar()
-
-  verAgenda()
-
-  }
-
-  }
-
-  function toggleStatus(i){
-
-  if(servicos[i].status==="Pendente"){
-
-  servicos[i].status="Executado"
-
-  }else{
-
-  servicos[i].status="Pendente"
-
-  }
-
-  salvar()
-
-  verAgenda()
-
-  }
+    }

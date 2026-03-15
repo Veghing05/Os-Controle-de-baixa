@@ -60,6 +60,8 @@ function novoServico(){
 
   📅 ${s.data}
 
+  <p>Status: ${s.status}</p>
+
   <h3>Materiais usados</h3>
 
   `
@@ -92,7 +94,7 @@ function novoServico(){
 
   <button onclick="addMaterial(${i})">Adicionar Material</button>
 
-  <button onclick="verAgenda()">Voltar</button>
+  <button onclick="verAgenda()">⬅ Voltar</button>
 
   </div>
 
@@ -112,7 +114,7 @@ function novoServico(){
 
   })
 
-  let escolha=prompt("Escolha o número do material:\n"+lista)
+  let escolha=prompt("Escolha o número do material:\n\n"+lista)
 
   let qtd=prompt("Quantidade usada")
 
@@ -182,5 +184,23 @@ function novoServico(){
   verAgenda()
 
   }
+
+  }
+
+  function toggleStatus(i){
+
+  if(servicos[i].status === "Pendente"){
+
+  servicos[i].status = "Executado"
+
+  }else{
+
+  servicos[i].status = "Pendente"
+
+  }
+
+  salvar()
+
+  verAgenda()
 
   }

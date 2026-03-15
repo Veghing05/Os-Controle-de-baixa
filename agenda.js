@@ -10,6 +10,8 @@ function verAgenda(){
 
   servicos.forEach((s,i)=>{
 
+  let corStatus = s.status === "Executado" ? "lime" : "orange"
+
   html+=`
 
   <div class="card">
@@ -20,11 +22,13 @@ function verAgenda(){
 
   <br>
 
-  Status: ${s.status}
+  Status: <b style="color:${corStatus}">${s.status}</b>
 
   <br><br>
 
   <button onclick="abrirServico(${i})">Abrir</button>
+
+  <button onclick="toggleStatus(${i})">Mudar Status</button>
 
   <button onclick="editarServico(${i})">Editar</button>
 
@@ -36,6 +40,6 @@ function verAgenda(){
 
   })
 
-  document.getElementById("app").innerHTML=html
-
-  }
+  document.getEl
+  ementById("app").innerHTML=html
+}

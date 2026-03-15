@@ -32,12 +32,10 @@ function novoServico(){
   let status=document.getElementById("status").value
 
   let s={
-
   local:local,
   data:data,
   status:status,
   materiais:[]
-
   }
 
   servicos.push(s)
@@ -76,11 +74,11 @@ function novoServico(){
 
   html+=`
 
-  <div>
+  <div class="card">
 
   ${m.nome} → ${m.qtd}
 
-  <button onclick="removerMaterial(${i},${index})">❌</button>
+  <button onclick="removerMaterial(${i},${index})">Remover</button>
 
   </div>
 
@@ -90,9 +88,7 @@ function novoServico(){
 
   html+=`
 
-  <br>
-
-  <button onclick="addMaterial(${i})">Adicionar Material</button>
+  <button onclick="abrirListaMateriais(${i})">➕ Adicionar Material</button>
 
   <button onclick="verAgenda()">⬅ Voltar</button>
 
@@ -104,36 +100,58 @@ function novoServico(){
 
   }
 
-  function addMaterial(i){
+  function abrirListaMateriais(servicoIndex){
 
-  let lista=""
+  let html="<h2>Escolher Material</h2>"
 
-  materiais.forEach((m,index)=>{
+  materiais.forEach((m,i)=>{
 
-  lista+=index+" - "+m.nome+" (Estoque:"+m.estoque+")\n"
+  html+=`
+
+  <div class="card">
+
+  <h3>${m.nome}</h3>
+
+  Estoque: ${m.estoque}
+
+  <button onclick="selecionarMaterial(${servicoIndex},${i})">
+
+  Usar Material
+
+  </button>
+
+  </div>
+
+  `
 
   })
 
-  let escolha=prompt("Escolha o número do material:\n\n"+lista)
+  html+=`<button onclick="abrirServico(${servicoIndex})">Voltar</button>`
+
+  document.getElementById("app").innerHTML=html
+
+  }
+
+  function selecionarMaterial(servicoIndex,materialIndex){
 
   let qtd=prompt("Quantidade usada")
 
-  if(escolha===null||qtd===null)return
+  if(!qtd) return
 
-  let material=materiais[escolha]
+  let material=materiais[materialIndex]
 
-  servicos[i].materiais.push({
+  servicos[servicoIndex].materiais.push({
 
   nome:material.nome,
   qtd:Number(qtd)
 
   })
 
-  material.estoque-=Number(qtd)
+  material.estoque -= Number(qtd)
 
   salvar()
 
-  abrirServico(i)
+  abrirServico(servicoIndex)
 
   }
 
@@ -145,7 +163,7 @@ function novoServico(){
 
   if(estoque){
 
-  estoque.estoque+=mat.qtd
+  estoque.estoque += mat.qtd
 
   }
 
@@ -189,13 +207,13 @@ function novoServico(){
 
   function toggleStatus(i){
 
-  if(servicos[i].status === "Pendente"){
+  if(servicos[i].status==="Pendente"){
 
-  servicos[i].status = "Executado"
+  servicos[i].status="Executado"
 
   }else{
 
-  servicos[i].status = "Pendente"
+  servicos[i].status="Pendente"
 
   }
 

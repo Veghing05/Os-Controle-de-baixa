@@ -1,15 +1,15 @@
-const express = require("express")
-const cors = require("cors")
+const express = require('express');
+const cors = require('cors');
+const servicosRoutes = require('./routes/servicos');
+const db = require('./database');
 
-const app = express()
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-app.use(cors())
-app.use(express.json())
+// Rota extra para ver estoque
+app.get('/estoque', (req, res) => res.json(db.estoque));
 
-const servicos = require("./routes/servicos")
+app.use('/servicos', servicosRoutes);
 
-app.use("/servicos", servicos)
-
-app.listen(5000, () => {
-console.log("Servidor rodando na porta 5000")
-})
+app.listen(5000, () => console.log("Servidor MDU Ativo na porta 5000"));

@@ -1,56 +1,39 @@
-const express = require("express")
-const router = express.Router()
-const mongoose = require("../database")
+const express = require('express');
+const router = express.Router();
+const db = require('../database');
 
-const Servico = mongoose.model("Servico", {
+router.post('/registrar', (req, res) => {
+  const { endereco, producao, mdu_status, horario } = req.body;
 
-endereco:String,
-mduConstruido:String,
-mduAtivado:String,
-inc:String,
-obra:String,
+    // Lógica de Baixa Automática
+      if (producao) {
+          if (producao.metros_f8) {
+                const item = db.estoque.find(i => i.id === 'f8');
+                      if (item) item.qtd -= producao.metros_f8;
+                          }
+                              if (prod.metros_fibra_cinza) {
+                                      const item = db.estoque.find(i => i.id === 'cinza');
+                                              if (item) item.qtd -= prod.metros_fibra_cinza;
+                                                  }
+                                                      if (producao.conectores) {
+                                                            const item = db.estoque.find(i => i.id === 'con');
+                                                                  if (item) item.qtd -= producao.conectores;
+                                                                      }
+                                                                        }
 
-f8:Number,
-fibraCinza:Number,
-nap:Number,
-conectores:Number,
-fusoes:Number,
+                                                                          const novoServico = {
+                                                                              id: Date.now(),
+                                                                                  endereco,
+                                                                                      producao,
+                                                                                          mdu_status,
+                                                                                              horario,
+                                                                                                  data: new Date().toLocaleDateString('pt-BR')
+                                                                                                    };
 
-andares:Number,
-aptos:Number,
-blocos:Number,
+                                                                                                      db.servicos.push(novoServico);
+                                                                                                        res.status(201).json({ message: "Sucesso!", servico: novoServico });
+                                                                                                        });
 
-inicio:String,
-termino:String,
-obs:String,
-data:String
-
-})
-
-router.post("/", async (req,res)=>{
-
-const servico = new Servico(req.body)
-
-await servico.save()
-
-res.json(servico)
-
-})
-
-router.get("/", async (req,res)=>{
-
-const lista = await Servico.find()
-
-res.json(lista)
-
-})
-
-router.delete("/:id", async (req,res)=>{
-
-await Servico.findByIdAndDelete(req.params.id)
-
-res.send("Removido")
-
-})
-
-module.exports = router
+                                                                                                        router.get('/historico', (req, res) => res.json(db.servicos));
+                                                                                                        module.exports = router;
+                                                                                                        

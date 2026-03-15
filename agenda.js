@@ -1,10 +1,16 @@
 function verAgenda(){
 
-  let html="<h2>📅 Agenda</h2>"
+  let app = document.getElementById("app")
 
-  if(servicos.length==0){
+  let html = "<h2>📅 Agenda de Serviços</h2>"
 
-  html+="<div class='card'>Nenhum serviço cadastrado</div>"
+  if(servicos.length === 0){
+
+  html += "<div class='card'>Nenhum serviço cadastrado</div>"
+
+  app.innerHTML = html
+
+  return
 
   }
 
@@ -12,23 +18,21 @@ function verAgenda(){
 
   let corStatus = s.status === "Executado" ? "lime" : "orange"
 
-  html+=`
+  html += `
 
   <div class="card">
 
   <h3>${s.local}</h3>
 
-  📅 ${s.data}
+  <p>📅 ${s.data}</p>
 
-  <br>
+  <p>Status: <b style="color:${corStatus}">${s.status}</b></p>
 
-  Status: <b style="color:${corStatus}">${s.status}</b>
-
-  <br><br>
+  <div style="display:flex;gap:5px;flex-wrap:wrap">
 
   <button onclick="abrirServico(${i})">Abrir</button>
 
-  <button onclick="toggleStatus(${i})">Mudar Status</button>
+  <button onclick="toggleStatus(${i})">Status</button>
 
   <button onclick="editarServico(${i})">Editar</button>
 
@@ -36,10 +40,12 @@ function verAgenda(){
 
   </div>
 
+  </div>
+
   `
 
   })
 
-  document.getEl
-  ementById("app").innerHTML=html
-}
+  app.innerHTML = html
+
+  }

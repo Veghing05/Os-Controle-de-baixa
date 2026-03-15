@@ -1,149 +1,84 @@
 body{
+
   margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:#0b0b0b;
+  font-family:Arial;
+  background:#0a0a0a;
   color:white;
+
   }
 
-  /* HEADER */
+  header{
 
-  .header{
-  background:#c40000;
-  padding:14px;
+  background:#111;
+  padding:12px;
   text-align:center;
-  font-size:20px;
-  font-weight:bold;
-  }
 
-  /* MENU */
+  }
 
   .menu{
+
   display:flex;
-  justify-content:space-around;
-  background:#111;
-  padding:10px;
-  position:sticky;
-  bottom:0;
+  gap:8px;
+  justify-content:center;
+  flex-wrap:wrap;
+
   }
 
   .menu button{
-  flex:1;
-  margin:4px;
-  padding:12px;
+
   background:#c40000;
   border:none;
+  padding:10px;
   color:white;
-  font-weight:bold;
   border-radius:6px;
+
   }
 
-  /* CARDS */
+  main{
+
+  padding:10px;
+
+  }
 
   .card{
-  background:#151515;
+
+  background:#161616;
+  padding:15px;
+  margin-bottom:10px;
   border-radius:10px;
-  padding:14px;
-  margin:10px;
-  box-shadow:0 0 6px rgba(0,0,0,0.5);
+
   }
 
-  /* TITULOS */
+  input,select{
 
-  h2{
-  margin-left:10px;
-  }
-
-  h3{
-  margin-top:0;
-  }
-
-  /* INPUTS */
-
-  input, select{
   width:100%;
   padding:10px;
-  margin:6px 0;
-  border-radius:6px;
+  margin-top:8px;
   border:none;
+  border-radius:6px;
   background:#222;
   color:white;
+
   }
 
-  /* BOTÕES */
+  .dashboard{
 
-  button{
-  padding:10px;
-  margin-top:6px;
-  border:none;
-  border-radius:6px;
-  background:#c40000;
-  color:white;
-  font-weight:bold;
-  }
-
-  /* AÇÕES */
-
-  .acoes{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  margin-top:10px;
-  }
-
-  .acoes button{
-  flex:1;
-  }
-
-  /* STATUS */
-
-  .status-pendente{
-  color:orange;
-  font-weight:bold;
-  }
-
-  .status-executado{
-  color:lime;
-  font-weight:bold;
-  }
-
-  /* DASHBOARD */
-
-  .dashboard-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
-  padding:10px;
+
   }
 
-  .dashboard-card{
-  background:#151515;
-  border-radius:10px;
-  padding:16px;
-  text-align:center;
-  font-size:18px;
+  .material{
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
   }
 
-  /* BARRA PRODUTIVIDADE */
+  button{
 
-  .barra{
-  background:#333;
-  border-radius:8px;
-  overflow:hidden;
-  height:18px;
-  margin-top:6px;
-  }
-
-  .barra-interna{
-  background:#c40000;
-  height:100%;
-  }
-
-  /* RESPONSIVO */
-
-  @media(max-width:600px){
-
-  .dashboard-grid{
-  grid-template-columns:1fr;
-  }
+  margin-top:8px;
 
   }

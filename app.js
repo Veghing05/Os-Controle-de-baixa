@@ -1,16 +1,8 @@
-// ===== BANCO LOCAL =====
+const app=document.getElementById("app")
 
-let servicos = JSON.parse(localStorage.getItem("servicos")) || []
+let servicos=JSON.parse(localStorage.getItem("servicos"))||[]
 
-let estoque = JSON.parse(localStorage.getItem("estoque")) || [
-
-{nome:"F8", qtd:0},
-{nome:"Fibra Cinza", qtd:0},
-{nome:"Conector", qtd:0},
-{nome:"Fusão", qtd:0},
-{nome:"NAP", qtd:0}
-
-]
+let estoque=JSON.parse(localStorage.getItem("estoque"))||[]
 
 function salvar(){
 
@@ -19,23 +11,20 @@ localStorage.setItem("estoque",JSON.stringify(estoque))
 
 }
 
+function dashboard(){
 
-// ===== DASHBOARD =====
+let concluidos=servicos.filter(s=>s.status==="Concluído").length
+let pendentes=servicos.filter(s=>s.status==="Pendente").length
 
-function verDashboard(){
+app.innerHTML=`
 
-let executados = servicos.filter(s=>s.status==="Executado").length
-let pendentes = servicos.filter(s=>s.status==="Pendente").length
-
-document.getElementById("app").innerHTML = `
-
-<h2 style="margin-left:10px">Dashboard</h2>
+<h2>Dashboard</h2>
 
 <div class="dashboard">
 
 <div class="card">
-Executados
-<h1>${executados}</h1>
+Serviços
+<h1>${servicos.length}</h1>
 </div>
 
 <div class="card">
@@ -44,8 +33,8 @@ Pendentes
 </div>
 
 <div class="card">
-Total
-<h1>${servicos.length}</h1>
+Concluídos
+<h1>${concluidos}</h1>
 </div>
 
 </div>
@@ -54,12 +43,9 @@ Total
 
 }
 
+function agenda(){
 
-// ===== AGENDA =====
-
-function verAgenda(){
-
-let html = "<h2 style='margin-left:10px'>Agenda</h2>"
+let html="<h2>Agenda</h2>"
 
 servicos.forEach((s,i)=>{
 
@@ -81,16 +67,13 @@ html+=`
 
 })
 
-document.getElementById("app").innerHTML = html
+app.innerHTML=html
 
 }
 
-
-// ===== NOVO SERVIÇO =====
-
 function novoServico(){
 
-document.getElementById("app").innerHTML = `
+app.innerHTML=`
 
 <div class="card">
 
@@ -133,12 +116,9 @@ materiais:[]
 
 salvar()
 
-verAgenda()
+agenda()
 
 }
-
-
-// ===== ABRIR SERVIÇO =====
 
 function abrirServico(i){
 
@@ -154,9 +134,7 @@ let html=`
 
 <p>Status: ${s.status}</p>
 
-<button onclick="mudarStatus(${i})">
-Alterar Status
-</button>
+<button onclick="statusServico(${i})">Alterar Status</button>
 
 <h3>Materiais</h3>
 
@@ -170,26 +148,21 @@ html+=`<p>${m.nome} - ${m.qtd}</p>`
 
 html+=`
 
-<button onclick="usarMaterial(${i})">
-Adicionar Material
-</button>
+<button onclick="usarMaterial(${i})">Adicionar Material</button>
 
-<button onclick="exportar(${i})">
-Exportar
-</button>
+<button onclick="exportar(${i})">Exportar WhatsApp</button>
+
+</div>
 
 `
 
-document.getElementById("app").innerHTML=html
+app.innerHTML=html
 
 }
 
+function statusServico(i){
 
-// ===== STATUS =====
-
-function mudarStatus(i){
-
-servicos[i].status = servicos[i].status==="Pendente" ? "Executado":"Pendente"
+servicos[i].status=servicos[i].status==="Pendente"?"Concluído":"Pendente"
 
 salvar()
 
@@ -197,20 +170,17 @@ abrirServico(i)
 
 }
 
+function estoqueTela(){
 
-// ===== ESTOQUE =====
-
-function verEstoque(){
-
-let html="<h2 style='margin-left:10px'>Estoque</h2>"
+let html="<h2>Estoque do carro</h2>"
 
 estoque.forEach((m,i)=>{
 
 html+=`
 
-<div class="card">
+<div class="card material">
 
-${m.nome}
+<span>${m.nome}</span>
 
 <input type="number" value="${m.qtd}" onchange="editarEstoque(${i},this.value)">
 
@@ -220,7 +190,9 @@ ${m.nome}
 
 })
 
-document.getElementById("app").innerHTML=html
+html+=`<button onclick="novoMaterial()">Adicionar Material</button>`
+
+app.innerHTML=html
 
 }
 
@@ -232,14 +204,29 @@ salvar()
 
 }
 
+function novoMaterial(){
 
-// ===== USAR MATERIAL =====
+let nome=prompt("Nome material")
+let qtd=prompt("Quantidade")
 
-function usarMaterial(i){
+estoque.push({
+
+nome,
+qtd:Number(qtd)
+
+})
+
+salvar()
+
+estoqueTela()
+
+}
+
+function usarMaterial(servicoIndex){
 
 let html="<h2>Selecionar Material</h2>"
 
-estoque.forEach((m,index)=>{
+estoque.forEach((m,i)=>{
 
 html+=`
 
@@ -247,11 +234,9 @@ html+=`
 
 ${m.nome} (Estoque ${m.qtd})
 
-<input id="q${index}" type="number">
+<input id="q${i}" type="number">
 
-<button onclick="confirmarMaterial(${i},${index})">
-Usar
-</button>
+<button onclick="confirmarMaterial(${servicoIndex},${i})">Usar</button>
 
 </div>
 
@@ -259,7 +244,7 @@ Usar
 
 })
 
-document.getElementById("app").innerHTML=html
+app.innerHTML=html
 
 }
 
@@ -269,7 +254,7 @@ let qtd=Number(document.getElementById("q"+materialIndex).value)
 
 if(qtd>estoque[materialIndex].qtd){
 
-alert("Sem estoque")
+alert("Estoque insuficiente")
 
 return
 
@@ -290,34 +275,32 @@ abrirServico(servicoIndex)
 
 }
 
-
-// ===== EXPORTAR =====
-
 function exportar(i){
 
 let s=servicos[i]
 
-let texto="RELATÓRIO SERVIÇO\n\n"
+let texto=`
 
-texto+="Local: "+s.local+"\n"
-texto+="Data: "+s.data+"\n"
-texto+="Status: "+s.status+"\n\n"
+📡 RELATÓRIO
 
-texto+="Materiais\n"
+📍 Local: ${s.local}
+📅 Data: ${s.data}
+📊 Status: ${s.status}
+
+🔧 Materiais
+
+`
 
 s.materiais.forEach(m=>{
 
-texto+=m.nome+" - "+m.qtd+"\n"
+texto+=`${m.nome} - ${m.qtd}\n`
 
 })
 
 navigator.clipboard.writeText(texto)
 
-alert("Copiado para WhatsApp")
+alert("Relatório copiado para WhatsApp")
 
 }
 
-
-// ===== INICIO =====
-
-verDashboard() 
+dashboard()

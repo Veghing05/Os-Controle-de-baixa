@@ -1,10 +1,13 @@
-fiber-field-app
+Sistema simples para técnicos de fibra controlarem:
 
-index.html
-style.css
-database.js
-app.js
-dashboard.js
-agenda.js
-estoque.js
-servico.js
+- Agenda
+- Estoque
+- Materiais usados
+- Relatórios
+
+Tecnologias:
+
+HTML
+CSS
+JavaScript
+LocalStorage
